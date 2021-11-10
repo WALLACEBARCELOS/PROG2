@@ -14,6 +14,7 @@ struct auxilio{
 	float renda;
 	float rendap=0;
 	char situacao[30];
+	int percp;
 };
 //IMPRESSAO DE RELATORIO
 void preenche (int n, auxilio *benef){
@@ -77,6 +78,19 @@ void q3 (int n, auxilio *benef){
 	}
 }
 
+//PERCENTUAL DE SOLICITANTES COM RENDA FAMILIAR ACIMA DE MEIO SALARIO MINIMO POR PESSOA.
+void q3 (int n, auxilio *benef){
+	int i;
+	for (i=0;i<n;i++){
+		if (benef[i].rendap>=522.50){
+			benef[i].percp ++;
+		}
+
+	}
+benef[i].percp=(benef[i].percp/75);		
+}
+
+
 void imprime (int n, auxilio *benef){
 	
 	int i;
@@ -85,6 +99,7 @@ void imprime (int n, auxilio *benef){
 		printf(" %d\t%d\t%s\t%s\t%.2f\t\t%.2f\t\t%s \n",benef[i].cod, benef[i].membros, benef[i].cidadao, benef[i].tipobenef, benef[i].renda,benef[i].rendap, benef[i].situacao);
 		 
 	}
+	//printf("Percetual de ")
 }
 
 
