@@ -1,0 +1,100 @@
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+#include<locale.h>
+#include<time.h>
+
+struct auxilio{
+	int tc;
+	int membros;
+	int cod;
+	char cidadao[15];
+	int recebe;
+	char tipobenef[15];
+	float renda;
+	float rendap=0;
+	char situacao[30];
+};
+//IMPRESSAO DE RELATORIO
+void preenche (int n, auxilio *benef){
+	int i;
+	for (i=0;i<n;i++){
+		benef[i].cod=1001+i;//CODIGO
+		benef[i].membros=(rand()%6)+1;//TOTAL DE MEBROS DA FAMILIA RAND
+		benef[i].tc=(rand()%4);
+		benef[i].recebe=(rand()%4)+1;
+		benef[i].renda=(rand()%4000)+450;
+		
+		
+		//TIPO DE CIDADAO
+		if (benef[i].tc==0){
+			sprintf(benef[i].cidadao,"EmpFCC");//EMPREGO FORMAL COM CARTEIRA
+		}
+		if (benef[i].tc==1){
+			sprintf(benef[i].cidadao,"ComPS ");//CONTRIBUINTE DA PREVIDENCIA SOCIAL
+		}
+		if (benef[i].tc==2){
+			sprintf(benef[i].cidadao,"Trlnf ");//TRABALHADOR INFORMAL
+		}		
+		if (benef[i].tc==3){
+			sprintf(benef[i].cidadao,"MEI   ");//MICROEMPREENDEDOR INDIVIDUAL
+		}
+		
+		//RECEBE ALGUM BENEFICIO
+		if(benef[i].recebe==1){
+			sprintf(benef[i].tipobenef,"1");
+		}
+		if(benef[i].recebe==2){
+			sprintf(benef[i].tipobenef,"2");
+		}
+		if(benef[i].recebe==3){
+			sprintf(benef[i].tipobenef,"3");
+		}
+		if(benef[i].recebe==4){
+			sprintf(benef[i].tipobenef,"0");
+		}
+	}
+}		
+//RENDA FAMILIZAR POR PESSOA
+void q2 (int n, auxilio *benef){
+	int i;
+	for (i=0;i<n;i++){
+		benef[i].rendap=(benef[i].renda/benef[i].membros);
+	}
+}
+
+
+//SITUAÇÃO DA SOLICITAÇÃO
+void q3 (int n, auxilio *benef){
+	int i;
+	for (i=0;i<n;i++){
+		if (benef[i].renda>3135 || benef[i].rendap>522.50 || benef[i].recebe==2 || benef[i].recebe==3 ){
+			sprintf(benef[i].situacao,"NAO TEM DIREITO");
+		}
+		if(benef[i].tc==1 || benef[i].tc==2 || benef[i].tc==3 || benef[i].rendap<=522.50 || benef[i].renda<=3135){
+			sprintf(benef[i].situacao,"TEM DIREITO");
+		}
+	}
+}
+
+void imprime (int n, auxilio *benef){
+	
+	int i;
+	printf ("Código\tMembros\tTipo\tBenef\tRenda\t\tRenda/P\t\tSituacao\n");
+	for (i=0;i<n;i++){
+		printf(" %d\t%d\t%s\t%s\t%.2f\t\t%.2f\t\t%s \n",benef[i].cod, benef[i].membros, benef[i].cidadao, benef[i].tipobenef, benef[i].renda,benef[i].rendap, benef[i].situacao);
+		 
+	}
+}
+
+
+main(){
+	srand(time(NULL));
+	setlocale(LC_ALL,"portuguese");
+	auxilio benef[75];
+	preenche (75, benef);
+	q2 (75, benef);
+	q3 (75, benef);
+	imprime (75, benef);
+	
+}
